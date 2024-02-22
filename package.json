@@ -1,0 +1,14 @@
+{
+  "name": "api-rinha-backend",
+  "version": "24.03.00",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon bin/http.js",
+    "prod": "node bin/http.js"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "standard": "^17.1.0"
+  }
+}
