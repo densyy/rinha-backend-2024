@@ -10,7 +10,7 @@ ENV PORT=53100
 RUN git clone https://github.com/densyy/rinha-backend-2024 api-rinha-backend
 RUN rm -rf ${DIR_REPO}/node_modules
 RUN rm -rf ${DIR_REPO}/.git
-RUN (cd api-rinha-backend && npm install --only=prod)
+RUN (cd api-rinha-backend && npm install --omit=dev)
 
 EXPOSE ${PORT}
 
