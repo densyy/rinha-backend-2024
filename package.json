@@ -3,22 +3,11 @@
   "version": "24.03.00",
   "private": true,
   "scripts": {
-    "dev": "nodemon bin/http.js",
-    "prod": "node bin/http.js"
+    "dev": "bun bin/http.js",
+    "prod": "bun bin/http.js"
   },
   "license": "UNLICENSED",
-  "dependencies": {
-    "compression": "^1.7.4",
-    "densyy-cors": "^0.0.3",
-    "densyy-helmet": "^0.0.3",
-    "densyy-morgan": "^0.0.3",
-    "densyy-response": "^0.0.2",
-    "densyy-validatorjs": "^0.0.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2"
-  },
   "devDependencies": {
-    "nodemon": "^3.0.3",
     "standard": "^17.1.0"
   }
 }
