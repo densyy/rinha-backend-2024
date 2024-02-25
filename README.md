@@ -1,8 +1,10 @@
 # Rinha de Backend 2024
 
-Este repositório foi preparado como uma submissão para a Segunda Edição da Rinha de Backend, ocorrida no primeiro trimestre de 2024, com foco em Controle de Concorrência. O projeto apresenta uma solução bastante simples e eficaz, implementando Bun como runtime e docker como ambiente virtualizado.
+Este repositório foi preparado como uma submissão para a Segunda Edição da Rinha de Backend, ocorrida no primeiro trimestre de 2024, com foco em Controle de Concorrência. O projeto apresenta uma solução bastante simples e eficaz, implementando Bun como runtime e Docker como ambiente virtualizado.
 
 ### Executando sem Docker
+
+Antes de mais nada instale o Bun e configure o arquivo .env
 
 ```
 bun install
