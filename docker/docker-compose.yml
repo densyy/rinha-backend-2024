@@ -18,9 +18,9 @@ services:
           cpus: "1"
           memory: "200MB"
 
-  api-01: &api
+  api01: &api
     image: densyy/api-rinha-backend:latest
-    hostname: api-01
+    hostname: api01
     environment:
       - PORT=3000
     ports:
@@ -33,9 +33,9 @@ services:
           cpus: "1"
           memory: "200MB"
 
-  api-02:
+  api02:
     <<: *api
-    hostname: api-02
+    hostname: api02
     environment:
       - PORT=3001
     ports:
