@@ -13,4 +13,4 @@ RUN (cd api-rinha-backend && npm install --omit=dev)
 
 EXPOSE ${PORT}
 
-ENTRYPOINT pm2-runtime start ${DIR_REPO}/bin/http.js --name API
+ENTRYPOINT pm2-runtime start ${DIR_REPO}/bin/http-1.js --name API
