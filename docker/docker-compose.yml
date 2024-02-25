@@ -16,7 +16,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: "200MB"
+          memory: "20MB"
 
   api_01: &api
     image: densyy/api-rinha-backend:latest
