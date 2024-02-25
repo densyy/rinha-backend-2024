@@ -6,8 +6,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - api-01
-      - api-02
+      - api_01
+      - api_02
     ports:
       - "9999:9999"
     restart: always
@@ -18,9 +18,9 @@ services:
           cpus: "1"
           memory: "200MB"
 
-  api01: &api
+  api_01: &api
     image: densyy/api-rinha-backend:latest
-    hostname: api01
+    hostname: api_01
     environment:
       - PORT=3000
     ports:
@@ -33,9 +33,9 @@ services:
           cpus: "1"
           memory: "200MB"
 
-  api02:
+  api_02:
     <<: *api
-    hostname: api02
+    hostname: api_02
     environment:
       - PORT=3001
     ports:
