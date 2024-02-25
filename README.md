@@ -4,7 +4,7 @@ Este repositório foi preparado como uma submissão para a Segunda Edição da R
 
 ### Executando sem Docker
 
-Antes de mais nada instale o Bun e configure o arquivo .env
+Verifique se o Bun já está instalado e configure o arquivo .env
 
 ```
 bun install
@@ -12,6 +12,8 @@ bun bin/http.js
 ```
 
 ### Executando com Docker
+
+Verifique se o Docker e o Docker Compose já estão instalados
 
 ```
 cd docker
