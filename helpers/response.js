@@ -18,8 +18,8 @@ function serverError (res) {
 
 function sendResponse (res, status, statusCode, body) {
   const headers = { 'Content-Type': 'application/json' }
-  res.writeHead(statusCode, headers)
   const response = { status, statusCode, body }
+  res.writeHead(statusCode, headers)
   res.end(JSON.stringify(response))
 }
 
