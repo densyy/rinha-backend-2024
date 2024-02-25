@@ -1,4 +1,7 @@
-FROM densyy/base-node:latest
+FROM oven/bun:alpine
+
+RUN apk add --no-cache git tzdata curl
+ENV TZ America/Sao_Paulo
 
 WORKDIR /home
 
@@ -9,8 +12,6 @@ ENV DIR_REPO=/home/api-rinha-backend
 RUN git clone https://github.com/densyy/rinha-backend-2024 api-rinha-backend
 RUN rm -rf ${DIR_REPO}/node_modules
 RUN rm -rf ${DIR_REPO}/.git
-RUN (cd api-rinha-backend && npm install --omit=dev)
+RUN (cd api-rinha-backend && bun install --production)
 
-EXPOSE ${PORT}
-
-ENTRYPOINT pm2-runtime start ${DIR_REPO}/bin/http-1.js --name API
+ENTRYPOINT bun ${DIR_REPO}/bin/http-1.js
