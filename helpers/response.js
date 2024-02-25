@@ -19,7 +19,8 @@ function serverError (res) {
 function sendResponse (res, status, statusCode, body) {
   const headers = { 'Content-Type': 'application/json' }
   res.writeHead(statusCode, headers)
-  res.end(`{ ${status}, ${statusCode}, ${body} }`)
+  const response = { status, statusCode, body }
+  res.end(JSON.stringify(response))
 }
 
 module.exports = {
