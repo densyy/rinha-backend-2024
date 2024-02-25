@@ -4,7 +4,6 @@ WORKDIR /home
 
 # ENVS
 ENV DIR_REPO=/home/api-rinha-backend
-ENV PORT=53100
 
 # API
 RUN git clone https://github.com/densyy/rinha-backend-2024 api-rinha-backend
