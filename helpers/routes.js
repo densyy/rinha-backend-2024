@@ -2,6 +2,7 @@
 
 const controllerIndex = require('../controllers/index')
 const controllerTransacoes = require('../controllers/transacoes')
+const controllerExtratos = require('../controllers/extratos')
 const controllerError = require('../controllers/error')
 
 /* ---- Methods ---- */
@@ -18,6 +19,7 @@ const routes = (req, res) => {
 
 function methodGet (req, res) {
   if (req.url === '/') return controllerIndex(req, res)
+  if (req.url.match(/^\/clientes\/[1-5]\/extrato$/)) return controllerExtratos(req, res)
   return controllerError(req, res)
 }
 
