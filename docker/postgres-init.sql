@@ -6,13 +6,11 @@ CREATE UNLOGGED TABLE clientes (
 
 CREATE UNLOGGED TABLE transacoes (
 	id SERIAL PRIMARY KEY,
-	cliente_id INTEGER NOT NULL,
+	cliente_id INTEGER NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
 	valor INTEGER NOT NULL,
 	tipo CHAR(1) NOT NULL,
 	descricao VARCHAR(10) NOT NULL,
 	data_registro TIMESTAMP NOT NULL DEFAULT NOW()
-
-  FOREIGN KEY (cliente_id) REFERENCES clientes (id)
 );
 
 DO $$
