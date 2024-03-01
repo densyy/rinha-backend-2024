@@ -9,7 +9,9 @@
   },
   "author": "densyy",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
   "devDependencies": {
     "standard": "^17.1.0"
   },
