@@ -10,4 +10,14 @@ async function adicionar (idCliente, dados) {
   await pool.query(sql, parametros)
 }
 
-module.exports = { adicionar }
+async function receberHistorico (idCliente) {
+  const parametros = [idCliente]
+  const sql = 'SELECT * FROM transacoes WHERE cliente_id=$1 ORDER BY data_registro DESC LIMIT 10'
+  const result = await pool.query(sql, parametros)
+  return result?.rows
+}
+
+module.exports = {
+  adicionar,
+  receberHistorico
+}
