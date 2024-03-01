@@ -13,6 +13,9 @@ CREATE UNLOGGED TABLE transacoes (
 	data_registro TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE INDEX idx_clientes_id ON clientes (id);
+CREATE INDEX idx_transacoes_cliente_id ON transacoes (cliente_id);
+
 DO $$
 BEGIN
 	INSERT INTO clientes (id, limite, saldo)
