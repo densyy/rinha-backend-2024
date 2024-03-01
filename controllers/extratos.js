@@ -1,16 +1,38 @@
 /* ---- Requires ---- */
 
 const helperResponse = require('../helpers/response')
+const repositoryClientes = require('../repositories/clientes')
+const repositoryTransacoes = require('../repositories/transacoes')
 
 /* ---- Methods ---- */
 
-function route (req, res) {
-  // step 1 - get id
-  // const idCliente = req.url.split('/')[2]
+async function route (req, res) {
+  const idCliente = req.url.split('/')[2]
+  const cliente = await repositoryClientes.receberPorId(idCliente)
+  const transacoes = await repositoryTransacoes.receberHistorico(idCliente)
 
-  // step 2 - get db
+  const resultado = formatarResultado(cliente, transacoes)
+  return helperResponse.success(res, resultado)
+}
 
-  return helperResponse.success(res, 'Deu certo')
+function formatarResultado (cliente, transacoes) {
+  const agora = new Date()
+
+  return {
+    saldo: {
+      total: cliente.saldo,
+      data_extrato: agora,
+      limite: cliente.limite
+    },
+    ultimas_transacoes: transacoes?.map(transacao => {
+      return {
+        valor: transacao.valor,
+        tipo: transacao.tipo,
+        descricao: transacao.descricao,
+        realizada_em: transacao.data_registro
+      }
+    })
+  }
 }
 
 module.exports = route
