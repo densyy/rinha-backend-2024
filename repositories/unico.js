@@ -14,7 +14,7 @@ async function adicionarTransacao (idCliente, dados) {
   UPDATE clientes SET saldo = saldo + $5 WHERE id = $1 RETURNING saldo, limite
   `
   const result = await pool.query(sql, parametros)
-  return result?.rows
+  return result?.rows[0]
 }
 
 module.exports = {
