@@ -10,7 +10,7 @@ const pool = new Pool({
   host: process.env.POSTGRES_HOST,
   port: process.env.POSTGRES_PORT,
   database: process.env.POSTGRES_DB,
-  max: 20,
+  max: 1,
   idleTimeoutMillis: 30000
 })
 
