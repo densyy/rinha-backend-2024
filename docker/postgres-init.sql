@@ -2,6 +2,7 @@ CREATE UNLOGGED TABLE clientes (
 	id SERIAL PRIMARY KEY,
 	limite INTEGER NOT NULL,
 	saldo INTEGER NOT NULL
+  CONSTRAINT saldo_limite CHECK (saldo >= limite * -1)
 );
 
 CREATE UNLOGGED TABLE transacoes (
