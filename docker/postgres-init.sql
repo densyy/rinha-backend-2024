@@ -29,3 +29,11 @@ BEGIN
     (5, 5000 * 100, 0);
 END;
 $$;
+
+ALTER SYSTEM SET max_worker_processes = 10;
+ALTER SYSTEM SET checkpoint_timeout = '5min';
+ALTER SYSTEM SET wal_compression = on;
+ALTER SYSTEM SET work_mem = '16MB';
+ALTER SYSTEM SET max_connections = 300;
+ALTER SYSTEM SET shared_buffers = '150MB';
+ALTER SYSTEM SET max_wal_senders = 10;
