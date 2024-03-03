@@ -3,7 +3,7 @@
 const helperResponse = require('../helpers/response')
 const validationTransacoes = require('../validations/transacoes')
 const repositoryClientes = require('../repositories/clientes')
-const repositoryTransacoes = require('../repositories/transacoes')
+const repositoryUnico = require('../repositories/unico')
 
 /* ---- Methods ---- */
 
@@ -21,13 +21,10 @@ async function route (req, res) {
     const limiteOk = limiteValido(cliente, req.body)
     if (!limiteOk) return helperResponse.simpleError(res, 422, { message: 'Transação inconsistente' })
 
-    // step 4 - return data
-    const retorno = formatarRetorno(cliente, req.body)
-    helperResponse.success(res, retorno)
+    // step 4 - update db
+    const resultado = await repositoryUnico.adicionarTransacao(idCliente, req.body)
 
-    // step 5 - update db
-    await repositoryTransacoes.adicionar(cliente.id, req.body)
-    await repositoryClientes.atualizarSaldo(cliente.id, req.body)
+    helperResponse.success(res, resultado)
   } catch (_error) {
     return helperResponse.serverError(res)
   }
@@ -41,13 +38,6 @@ function limiteValido (cliente, body) {
   if (saldoFuturo >= prejuizoMaximo) return true
 
   return false
-}
-
-function formatarRetorno (cliente, body) {
-  const tipo = (body.tipo === 'd') ? -1 : 1
-  const limite = cliente.limite
-  const saldo = cliente.saldo + (body.valor * tipo)
-  return { limite, saldo }
 }
 
 module.exports = route
