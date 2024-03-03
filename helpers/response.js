@@ -10,7 +10,7 @@ function simpleError (res, statusCode, message) {
 
 function serverError (res) {
   const statusCode = 500
-  const message = 'Houve um erro interno'
+  const message = { message: 'Houve um erro interno' }
   return sendResponse(res, 'error', statusCode, message)
 }
 
