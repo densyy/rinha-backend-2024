@@ -16,8 +16,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.30"
-          memory: "20MB"
+          cpus: "0.20"
+          memory: "25MB"
 
   api_01: &api
     image: densyy/api-rinha-backend:latest
@@ -38,8 +38,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.40"
-          memory: "120MB"
+          cpus: "0.35"
+          memory: "110MB"
 
   api_02:
     <<: *api
@@ -69,5 +69,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.40"
-          memory: "290MB"
+          cpus: "0.60"
+          memory: "305MB"
