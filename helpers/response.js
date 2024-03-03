@@ -21,6 +21,7 @@ function sendResponse (res, _status, statusCode, body) {
   const response = { ...body }
   res.writeHead(statusCode, headers)
   res.end(JSON.stringify(response))
+  return true
 }
 
 module.exports = {
