@@ -12,11 +12,15 @@ async function receberPorId (idCliente) {
 }
 
 async function atualizarSaldo (idCliente, dados) {
-  const valor = (dados.tipo === 'd') ? dados.valor * -1 : dados.valor
-  const parametros = [valor, idCliente]
-  const sql = 'UPDATE clientes SET saldo = saldo + $1 WHERE id = $2'
-  await pool.query(sql, parametros)
-  return true
+  try {
+    const valor = (dados.tipo === 'd') ? dados.valor * -1 : dados.valor
+    const parametros = [valor, idCliente]
+    const sql = 'UPDATE clientes SET saldo = saldo + $1 WHERE id = $2'
+    await pool.query(sql, parametros)
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 module.exports = {
