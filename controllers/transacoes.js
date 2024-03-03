@@ -11,7 +11,7 @@ async function route (req, res) {
   try {
     // step 1 - validate
     const validacaoOk = validationTransacoes(req.body)
-    if (!validacaoOk) return helperResponse.simpleError(res, 422, 'Há erros de validação')
+    if (!validacaoOk) return helperResponse.simpleError(res, 422, { message: 'Há erros de validação' })
 
     // step 2 - get id
     const idCliente = req.url.split('/')[2]
@@ -19,7 +19,7 @@ async function route (req, res) {
 
     // step 3 - check saldo ok
     const limiteOk = limiteValido(cliente, req.body)
-    if (!limiteOk) return helperResponse.simpleError(res, 422, 'Transação inconsistente')
+    if (!limiteOk) return helperResponse.simpleError(res, 422, { message: 'Transação inconsistente' })
 
     // step 4 - return data
     const retorno = formatarRetorno(cliente, req.body)
