@@ -16,6 +16,7 @@ async function atualizarSaldo (idCliente, dados) {
   const parametros = [valor, idCliente]
   const sql = 'UPDATE clientes SET saldo = saldo + $1 WHERE id = $2'
   await pool.query(sql, parametros)
+  return true
 }
 
 module.exports = {
