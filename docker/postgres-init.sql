@@ -7,11 +7,12 @@ CREATE UNLOGGED TABLE clientes (
 
 CREATE UNLOGGED TABLE transacoes (
 	id SERIAL PRIMARY KEY,
-	cliente_id INTEGER NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
+	cliente_id INTEGER NOT NULL,
 	valor INTEGER NOT NULL,
 	tipo CHAR(1) NOT NULL,
 	descricao VARCHAR(10) NOT NULL,
 	data_registro TIMESTAMP NOT NULL DEFAULT NOW()
+  CONSTRAINT fk_clientes_transacoes_id FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 
 CREATE INDEX idx_clientes_id ON clientes (id);
