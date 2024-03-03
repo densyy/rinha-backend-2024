@@ -21,12 +21,13 @@ async function route (req, res) {
     const limiteOk = limiteValido(cliente, req.body)
     if (!limiteOk) return helperResponse.simpleError(res, 422, 'Transação inconsistente')
 
-    // step 4 - update db
+    // step 4 - return data
+    const retorno = formatarRetorno(cliente, req.body)
+    helperResponse.success(res, retorno)
+
+    // step 5 - update db
     await repositoryTransacoes.adicionar(cliente.id, req.body)
     await repositoryClientes.atualizarSaldo(cliente.id, req.body)
-
-    const retorno = formatarRetorno(cliente, req.body)
-    return helperResponse.success(res, retorno)
   } catch (_error) {
     return helperResponse.serverError(res)
   }
