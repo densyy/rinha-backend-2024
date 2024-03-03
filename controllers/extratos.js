@@ -18,20 +18,22 @@ async function route (req, res) {
 function formatarResultado (cliente, transacoes) {
   const agora = new Date()
 
+  const ultimasTransacoes = transacoes?.map(transacao => {
+    return {
+      valor: transacao.valor,
+      tipo: transacao.tipo,
+      descricao: transacao.descricao,
+      realizada_em: transacao.data_registro
+    }
+  })
+
   return {
     saldo: {
       total: cliente.saldo,
       data_extrato: agora,
       limite: cliente.limite
     },
-    ultimas_transacoes: transacoes?.map(transacao => {
-      return {
-        valor: transacao.valor,
-        tipo: transacao.tipo,
-        descricao: transacao.descricao,
-        realizada_em: transacao.data_registro
-      }
-    })
+    ultimas_transacoes: ultimasTransacoes
   }
 }
 
