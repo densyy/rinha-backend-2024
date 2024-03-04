@@ -17,8 +17,12 @@ const routes = (req, res) => {
 //
 
 function methodGet (req, res) {
-  if (req.url.match(/^\/clientes\/[1-5]\/extrato$/)) return controllerExtratos(req, res)
-  return controllerError(req, res)
+  if (!req.url.startsWith('/clientes/') || !req.url.endsWith('/extrato')) return controllerError(req, res)
+
+  const clienteId = req.url.split('/')[2]
+  if (!['1', '2', '3', '4', '5'].includes(clienteId)) return controllerError(req, res)
+
+  return controllerExtratos(req, res)
 }
 
 //
@@ -40,8 +44,12 @@ function parseJsonPost (req, res) {
 }
 
 function methodPost (req, res) {
-  if (req.url.match(/^\/clientes\/[1-5]\/transacoes$/)) return controllerTransacoes(req, res)
-  return controllerError(req, res)
+  if (!req.url.startsWith('/clientes/') || !req.url.endsWith('/transacoes')) return controllerError(req, res)
+
+  const clienteId = req.url.split('/')[2]
+  if (!['1', '2', '3', '4', '5'].includes(clienteId)) return controllerError(req, res)
+
+  return controllerTransacoes(req, res)
 }
 
 module.exports = routes
