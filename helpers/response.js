@@ -16,8 +16,10 @@ function serverError (res) {
 /* ---- Aux Functions ---- */
 
 function sendResponse (res, statusCode, body) {
+  const headers = { 'Content-Type': 'application/json' }
   const message = (body) ? JSON.stringify(body) : null
-  res.writeHead(statusCode)
+
+  res.writeHead(statusCode, headers)
   res.end(message)
 }
 
