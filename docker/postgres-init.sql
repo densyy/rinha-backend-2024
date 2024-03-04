@@ -30,10 +30,16 @@ BEGIN
 END;
 $$;
 
-ALTER SYSTEM SET max_worker_processes = 10;
-ALTER SYSTEM SET checkpoint_timeout = '5min';
-ALTER SYSTEM SET wal_compression = on;
-ALTER SYSTEM SET work_mem = '16MB';
-ALTER SYSTEM SET max_connections = 300;
-ALTER SYSTEM SET shared_buffers = '150MB';
-ALTER SYSTEM SET max_wal_senders = 10;
+ALTER SYSTEM SET max_connections = '200';
+ALTER SYSTEM SET shared_buffers = '72960kB';
+ALTER SYSTEM SET effective_cache_size = '218880kB';
+ALTER SYSTEM SET maintenance_work_mem = '18240kB';
+ALTER SYSTEM SET checkpoint_completion_target = '0.9';
+ALTER SYSTEM SET wal_buffers = '2188kB';
+ALTER SYSTEM SET default_statistics_target = '100';
+ALTER SYSTEM SET random_page_cost = '1.1';
+ALTER SYSTEM SET effective_io_concurrency = '200';
+ALTER SYSTEM SET work_mem = '182kB';
+ALTER SYSTEM SET huge_pages = 'off';
+ALTER SYSTEM SET min_wal_size = '1GB';
+ALTER SYSTEM SET max_wal_size = '4GB';
