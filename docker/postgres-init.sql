@@ -24,17 +24,33 @@ CREATE INDEX idx_transacoes_cliente_id ON transacoes (cliente_id);
 
 -- Funcoes
 
-PREPARE cliente_atualizar_saldo(integer, integer) AS
-UPDATE clientes SET saldo = saldo + $1 WHERE id = $2;
+CREATE OR REPLACE FUNCTION cliente_atualizar_saldo(valor INTEGER, cliente_id INTEGER)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE clientes SET saldo = saldo + valor WHERE id = cliente_id;
+END;
+$$ LANGUAGE plpgsql;
 
-PREPARE cliente_receber_por_id(integer) AS
-SELECT * FROM clientes WHERE id = $1;
+CREATE OR REPLACE FUNCTION cliente_receber_por_id(_id INTEGER)
+RETURNS SETOF clientes AS $$
+BEGIN
+  RETURN QUERY SELECT * FROM clientes WHERE id = _id;
+END;
+$$ LANGUAGE plpgsql;
 
-PREPARE transacoes_adicionar(integer, integer, char, varchar) AS
-INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES ($1, $2, $3, $4);
+CREATE OR REPLACE FUNCTION transacoes_adicionar(_id INTEGER, valor INTEGER, tipo CHAR, descricao VARCHAR)
+RETURNS VOID AS $$
+BEGIN
+  INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES (_id, valor, tipo, descricao);
+END;
+$$ LANGUAGE plpgsql;
 
-PREPARE transacoes_receber_historico(integer) AS
-SELECT * FROM transacoes WHERE cliente_id = $1 ORDER BY data_registro DESC LIMIT 10;
+CREATE OR REPLACE FUNCTION transacoes_receber_historico(_id INTEGER)
+RETURNS SETOF transacoes AS $$
+BEGIN
+  RETURN QUERY SELECT * FROM transacoes WHERE cliente_id = _id ORDER BY data_registro DESC LIMIT 10;
+END;
+$$ LANGUAGE plpgsql;
 
 -- Dados iniciais
 
