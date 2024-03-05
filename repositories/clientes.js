@@ -6,7 +6,7 @@ const pool = require('./postgres')
 
 async function receberPorId (idCliente) {
   const parametros = [idCliente]
-  const sql = 'SELECT * FROM clientes WHERE id=$1'
+  const sql = 'EXECUTE cliente_receber_por_id($1);'
   const result = await pool.query(sql, parametros)
   return result?.rows[0]
 }
@@ -15,7 +15,7 @@ async function atualizarSaldo (idCliente, dados) {
   try {
     const valor = (dados.tipo === 'd') ? dados.valor * -1 : dados.valor
     const parametros = [valor, idCliente]
-    const sql = 'UPDATE clientes SET saldo = saldo + $1 WHERE id = $2'
+    const sql = 'EXECUTE cliente_atualizar_saldo($1, $2);'
     await pool.query(sql, parametros)
     return true
   } catch (error) {
