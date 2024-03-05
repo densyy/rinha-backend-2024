@@ -6,14 +6,14 @@ const pool = require('./postgres')
 
 async function adicionar (idCliente, dados) {
   const parametros = [idCliente, dados.valor, dados.tipo, dados.descricao]
-  const sql = 'EXECUTE transacoes_adicionar($1, $2, $3, $4);'
+  const sql = 'SELECT transacoes_adicionar($1, $2, $3, $4)'
   await pool.query(sql, parametros)
   return true
 }
 
 async function receberHistorico (idCliente) {
   const parametros = [idCliente]
-  const sql = 'EXECUTE transacoes_receber_historico($1);'
+  const sql = 'SELECT * FROM transacoes_receber_historico($1)'
   const result = await pool.query(sql, parametros)
   return result?.rows
 }
