@@ -1,3 +1,5 @@
+-- Tabelas
+
 CREATE UNLOGGED TABLE clientes (
 	id SERIAL PRIMARY KEY,
 	limite INTEGER NOT NULL,
@@ -15,8 +17,26 @@ CREATE UNLOGGED TABLE transacoes (
   CONSTRAINT fk_clientes_transacoes_id FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
 
+-- Indices
+
 CREATE INDEX idx_clientes_id ON clientes (id);
 CREATE INDEX idx_transacoes_cliente_id ON transacoes (cliente_id);
+
+-- Funcoes
+
+PREPARE cliente_atualizar_saldo(integer, integer) AS
+UPDATE clientes SET saldo = saldo + $1 WHERE id = $2;
+
+PREPARE cliente_receber_por_id(integer) AS
+SELECT * FROM clientes WHERE id = $1;
+
+PREPARE transacoes_adicionar(integer, integer, char, varchar) AS
+INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES ($1, $2, $3, $4);
+
+PREPARE transacoes_receber_historico(integer) AS
+SELECT * FROM transacoes WHERE cliente_id = $1 ORDER BY data_registro DESC LIMIT 10;
+
+-- Dados iniciais
 
 DO $$
 BEGIN
@@ -29,6 +49,8 @@ BEGIN
     (5, 5000 * 100, 0);
 END;
 $$;
+
+-- Tune Postgres
 
 ALTER SYSTEM SET max_connections = '200';
 ALTER SYSTEM SET shared_buffers = '72960kB';
