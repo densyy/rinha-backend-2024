@@ -36,7 +36,7 @@ function formatarResultado (resultado) {
       data_extrato: agora,
       limite: resultado?.cliente?.limite
     },
-    ultimas_transacoes: ultimasTransacoes
+    ultimas_transacoes: ultimasTransacoes || []
   }
 }
 
