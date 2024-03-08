@@ -63,33 +63,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Outras funcoes
-
-CREATE OR REPLACE FUNCTION cliente_atualizar_saldo(valor INTEGER, cliente_id INTEGER)
-RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION historico(_id INTEGER)
+RETURNS json AS $$
+DECLARE
+  cliente_info json;
+  transacoes_info json;
 BEGIN
-  UPDATE clientes SET saldo = saldo + valor WHERE id = cliente_id;
-END;
-$$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION cliente_receber_por_id(_id INTEGER)
-RETURNS SETOF clientes AS $$
-BEGIN
-  RETURN QUERY SELECT * FROM clientes WHERE id = _id;
-END;
-$$ LANGUAGE plpgsql;
+  SELECT row_to_json(t) INTO cliente_info FROM (
+    SELECT limite, saldo FROM clientes WHERE id = _id
+  ) t;
 
-CREATE OR REPLACE FUNCTION transacoes_adicionar(_id INTEGER, valor INTEGER, tipo CHAR, descricao VARCHAR)
-RETURNS VOID AS $$
-BEGIN
-  INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES (_id, valor, tipo, descricao);
-END;
-$$ LANGUAGE plpgsql;
+  SELECT json_agg(row_to_json(t)) INTO transacoes_info FROM (
+    SELECT valor, tipo, descricao, data_registro FROM transacoes WHERE cliente_id = _id ORDER BY data_registro DESC LIMIT 10
+  ) t;
 
-CREATE OR REPLACE FUNCTION transacoes_receber_historico(_id INTEGER)
-RETURNS SETOF transacoes AS $$
-BEGIN
-  RETURN QUERY SELECT * FROM transacoes WHERE cliente_id = _id ORDER BY data_registro DESC LIMIT 10;
+  RETURN json_build_object('cliente', cliente_info, 'transacoes', transacoes_info);
+
 END;
 $$ LANGUAGE plpgsql;
 
