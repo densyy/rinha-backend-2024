@@ -31,6 +31,8 @@ DECLARE
   limite_final INTEGER;
 BEGIN
 
+  PERFORM pg_advisory_xact_lock(_id);
+
   INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES (_id, valor, 'c', descricao);
   UPDATE clientes SET saldo = saldo + valor WHERE id = _id;
 
@@ -48,6 +50,8 @@ DECLARE
   saldo_final INTEGER;
   limite_final INTEGER;
 BEGIN
+
+  PERFORM pg_advisory_xact_lock(_id);
 
   SELECT saldo, limite INTO saldo_antigo, limite_antigo FROM clientes WHERE id = _id;
   IF (saldo_antigo - valor < limite_antigo * -1) THEN
@@ -69,6 +73,8 @@ DECLARE
   cliente_info json;
   transacoes_info json;
 BEGIN
+
+  PERFORM pg_advisory_xact_lock(_id);
 
   SELECT row_to_json(t) INTO cliente_info FROM (
     SELECT limite, saldo FROM clientes WHERE id = _id
