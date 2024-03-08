@@ -24,6 +24,47 @@ CREATE INDEX idx_transacoes_cliente_id ON transacoes (cliente_id);
 
 -- Funcoes
 
+CREATE OR REPLACE FUNCTION credito(_id INTEGER, valor INTEGER, descricao VARCHAR)
+RETURNS json AS $$
+DECLARE
+  saldo_final INTEGER;
+  limite_final INTEGER;
+BEGIN
+
+  INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES (_id, valor, 'c', descricao);
+  UPDATE clientes SET saldo = saldo + valor WHERE id = _id;
+
+  SELECT saldo, limite INTO saldo_final, limite_final FROM clientes WHERE id = _id;
+  RETURN json_build_object('saldo', saldo_final, 'limite', limite_final);
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION debito(_id INTEGER, valor INTEGER, descricao VARCHAR)
+RETURNS json AS $$
+DECLARE
+  saldo_antigo INTEGER;
+  limite_antigo INTEGER;
+  saldo_final INTEGER;
+  limite_final INTEGER;
+BEGIN
+
+  SELECT saldo, limite INTO saldo_antigo, limite_antigo FROM clientes WHERE id = _id;
+  IF (saldo_antigo - valor < limite_antigo * -1) THEN
+    RETURN json_build_object('error', true);
+  END IF;
+
+  INSERT INTO transacoes (cliente_id, valor, tipo, descricao) VALUES (_id, valor, 'd', descricao);
+  UPDATE clientes SET saldo = saldo - valor WHERE id = _id;
+
+  SELECT saldo, limite INTO saldo_final, limite_final FROM clientes WHERE id = _id;
+  RETURN json_build_object('saldo', saldo_final, 'limite', limite_final);
+
+END;
+$$ LANGUAGE plpgsql;
+
+-- Outras funcoes
+
 CREATE OR REPLACE FUNCTION cliente_atualizar_saldo(valor INTEGER, cliente_id INTEGER)
 RETURNS VOID AS $$
 BEGIN
