@@ -34,7 +34,7 @@ async function historico (idCliente) {
     const parametros = [idCliente]
     const sql = 'SELECT historico($1)'
     const resultado = await pool.query(sql, parametros)
-    return resultado?.rows[0]
+    return resultado?.rows[0]?.historico
   } catch (error) {
     return false
   }
