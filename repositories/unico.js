@@ -28,7 +28,20 @@ async function credito (idCliente, dados) {
   }
 }
 
+async function historico (idCliente) {
+  idCliente = parseInt(idCliente)
+  try {
+    const parametros = [idCliente]
+    const sql = 'SELECT historico($1)'
+    const resultado = await pool.query(sql, parametros)
+    return resultado?.rows[0]
+  } catch (error) {
+    return false
+  }
+}
+
 module.exports = {
   debito,
-  credito
+  credito,
+  historico
 }
