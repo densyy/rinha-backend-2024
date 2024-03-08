@@ -1,24 +1,27 @@
 /* ---- Requires ---- */
 
 const helperResponse = require('../helpers/response')
-const repositoryClientes = require('../repositories/clientes')
-const repositoryTransacoes = require('../repositories/transacoes')
+const repositoryUnico = require('../repositories/unico')
 
 /* ---- Methods ---- */
 
 async function route (req, res) {
-  const idCliente = req.url.split('/')[2]
-  const cliente = await repositoryClientes.receberPorId(idCliente)
-  const transacoes = await repositoryTransacoes.receberHistorico(idCliente)
+  try {
+    const idCliente = req.url.split('/')[2]
+    const resultado = await repositoryUnico.historico(idCliente)
+    if (resultado === false) return helperResponse.serverError(res)
 
-  const resultado = formatarResultado(cliente, transacoes)
-  return helperResponse.success(res, resultado)
+    const resultadoFormatado = formatarResultado(resultado)
+    return helperResponse.success(res, resultadoFormatado)
+  } catch (error) {
+    return helperResponse.serverError(res)
+  }
 }
 
-function formatarResultado (cliente, transacoes) {
+function formatarResultado (resultado) {
   const agora = new Date()
 
-  const ultimasTransacoes = transacoes?.map(transacao => {
+  const ultimasTransacoes = resultado?.transacoes?.map(transacao => {
     return {
       valor: transacao.valor,
       tipo: transacao.tipo,
@@ -29,9 +32,9 @@ function formatarResultado (cliente, transacoes) {
 
   return {
     saldo: {
-      total: cliente.saldo,
+      total: resultado?.cliente?.saldo,
       data_extrato: agora,
-      limite: cliente.limite
+      limite: resultado?.cliente?.limite
     },
     ultimas_transacoes: ultimasTransacoes
   }
